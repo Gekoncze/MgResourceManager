@@ -41,19 +41,20 @@ public class ResourceManager<O, R extends AutoCloseable> {
                 reference.getController().decreaseReferenceCount();
             }
 
-            LinkedList<ResourceController<R>> freedControllers = new LinkedList<>();
-            for(ResourceController<R> controller : controllers){
+            LinkedList<ResourceController<R>> currentControllers = new LinkedList<>(controllers);
+            for(ResourceController<R> controller : currentControllers){
                 if(controller.getChildrenCount() <= 0 && controller.getReferenceCount() <= 0){
                     restart = true;
                     controller.free(force);
-                    freedControllers.add(controller);
+                    controllers.remove(controller);
                 }
             }
-
-            for(ResourceController<R> controller : freedControllers){
-                controllers.remove(controller);
-            }
         }
+    }
+
+    public synchronized void forceFree(R resource) throws Exception {
+        controllers.remove(find(resource));
+        resource.close();
     }
 
     private ResourceController<R> find(R resource){

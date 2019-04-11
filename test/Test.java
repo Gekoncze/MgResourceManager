@@ -55,6 +55,10 @@ public class Test {
         resourceManager.add(owner1, p4 = new Phantomas(), p3);
         resourceManager.add(owner1, p5 = new Phantomas(), p4);
 
+        Phantomas px = new Phantomas();
+        resourceManager.add(owner1, px);
+        resourceManager.add(owner1, px);
+
         owner1 = null;
         owner2 = null;
 
