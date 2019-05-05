@@ -6,12 +6,12 @@ import java.lang.ref.PhantomReference;
 class ResourceOwnerReference<O, R extends AutoCloseable> extends PhantomReference<O> {
     private final ResourceController<R> controller;
 
-    public ResourceOwnerReference(O owner, ResourceController<R> controller, Trash queue) {
+    ResourceOwnerReference(O owner, ResourceController<R> controller, ResourceTrash queue) {
         super(owner, queue);
         this.controller = controller;
     }
 
-    public ResourceController<R> getController() {
+    ResourceController<R> getController() {
         return controller;
     }
 }

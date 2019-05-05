@@ -43,26 +43,35 @@ public class Test {
         Object owner1 = new Object();
         Object owner2 = new Object();
 
-        Phantomas p1;
-        Phantomas p2;
-        Phantomas p3;
-        Phantomas p4;
-        Phantomas p5;
+        Phantomas p1 = new Phantomas();
+        Phantomas p2 = new Phantomas();
+        Phantomas p3 = new Phantomas();
+        Phantomas p4 = new Phantomas();
+        Phantomas p5 = new Phantomas();
 
-        resourceManager.add(owner1, p1 = new Phantomas());
-        resourceManager.add(owner1, p2 = new Phantomas(), p1);
-        resourceManager.add(owner2, p3 = new Phantomas(), p2);
-        resourceManager.add(owner1, p4 = new Phantomas(), p3);
-        resourceManager.add(owner1, p5 = new Phantomas(), p4);
+        resourceManager.add(owner1, p1);
+        resourceManager.add(owner1, p2);
+        resourceManager.add(owner2, p3);
+        resourceManager.add(owner1, p4);
+        resourceManager.add(owner1, p5);
+
+        resourceManager.add(p2, p1);
+        resourceManager.add(p3, p2);
+        resourceManager.add(p4, p3);
+        resourceManager.add(p5, p4);
 
         Phantomas px = new Phantomas();
         resourceManager.add(owner1, px);
         resourceManager.add(owner1, px);
 
+        p1 = null;
+        p2 = null;
+        p3 = null;
+        p4 = null;
+        p5 = null;
         owner1 = null;
         owner2 = null;
 
-        System.gc();
-        while(resourceManager.count() > 0) resourceManager.free(true);
+        resourceManager.waitFreeAll();
     }
 }
